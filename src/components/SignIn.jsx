@@ -1,6 +1,6 @@
 import React from "react";
 
-function SignIn() {
+function SignIn({forget}) {
   return (
     <form>
       <h3>
@@ -11,7 +11,7 @@ function SignIn() {
       <label>Contraseña</label>
       <input type="text" />
       <div>
-        <a>
+        <a onClick={forget}>
           <label>¿Olvidaste tu contraseña?</label>
         </a>
       </div>
