@@ -1,8 +1,8 @@
 import React from "react";
 
-function SignIn({forget}) {
+function SignIn({ forget }) {
   return (
-    <form>
+    <form id="form-sign-in">
       <h3>
         <strong>Inicio de Sesión</strong>
       </h3>
@@ -11,7 +11,7 @@ function SignIn({forget}) {
       <label>Contraseña</label>
       <input type="text" />
       <div>
-        <a onClick={forget}>
+        <a onClick={next}>
           <label>¿Olvidaste tu contraseña?</label>
         </a>
       </div>
@@ -20,4 +20,10 @@ function SignIn({forget}) {
   );
 }
 
+function next() {
+  let accountRecovery = document.getElementById("form-account-recovery");
+  let sign = document.getElementById("form-sign-in");
+  sign.style.display="none"
+  accountRecovery.style.display = "flex";
+}
 export default SignIn;

@@ -7,15 +7,8 @@ import logo from "./assets/uniquindio-logo.png";
 function Login() {
   const [content, setContent] = useState(<></>);
 
-  function setAccountRecovery() {
-    setContent(<AccountRecovery />);
-  }
-  function setSinIn() {
-    setContent(<SignIn forget={setAccountRecovery} />);
-  }
   useEffect(() => {
-    console.log("eee");
-    setContent(<SignIn forget={setAccountRecovery} />);
+    //  init();
   }, []);
 
   return (
@@ -23,12 +16,17 @@ function Login() {
       <div className="background-mobile">
         <div className="login-area">
           <img src={logo} alt="Logo Uniquindio" />
-          {content}
+          <SignIn />
+          <AccountRecovery />
         </div>
       </div>
       <div className="background-login"></div>
     </>
   );
+}
+function init() {
+  let accountRecovery = document.getElementById("form-account-recovery");
+  accountRecovery.style.display = "none";
 }
 
 export default Login;
