@@ -1,6 +1,6 @@
 import React from "react";
 
-function SignIn({ forget }) {
+function SignIn({ next }) {
   return (
     <form id="form-sign-in">
       <h3>
@@ -11,7 +11,7 @@ function SignIn({ forget }) {
       <label>Contraseña</label>
       <input type="text" />
       <div>
-        <a onClick={next}>
+        <a onClick={(e) => next(e, "form-sign-in", "form-account-recovery")}>
           <label>¿Olvidaste tu contraseña?</label>
         </a>
       </div>
@@ -20,10 +20,4 @@ function SignIn({ forget }) {
   );
 }
 
-function next() {
-  let accountRecovery = document.getElementById("form-account-recovery");
-  let sign = document.getElementById("form-sign-in");
-  sign.style.display="none"
-  accountRecovery.style.display = "flex";
-}
 export default SignIn;

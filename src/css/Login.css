@@ -66,13 +66,15 @@ form div {
 label {
   font-size: 12px;
 }
-#back {
-  margin-top: 20px;
+.text-center {
   width: 100%;
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: center;
+}
+#back {
+  margin-top: 20px;
 }
 #back-icon {
   margin: 0px;
