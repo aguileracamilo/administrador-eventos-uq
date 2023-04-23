@@ -1,9 +1,9 @@
 import React from "react";
-import user from "../js/services/user.js";
+import { loginUser } from "../js/services/user.js";
 
 function SignIn({ next }) {
   return (
-    <form id="form-sign-in" >
+    <form id="form-sign-in">
       <h3>
         <strong>Inicio de Sesión</strong>
       </h3>
@@ -26,7 +26,7 @@ function login(event) {
   const emailInput = document.getElementById("email-input");
   const passwordInput = document.getElementById("password-input");
 
-  user({
+  loginUser({
     email: emailInput.value,
     password: passwordInput.value,
   });
