@@ -38,8 +38,7 @@ function Login() {
   );
 }
 
-function next(event, current, nextId) {
-  event.preventDefault();
+function next( current, nextId) {
   let currentPage = document.getElementById(current);
   let nextPage = document.getElementById(nextId);
   let step = document.getElementsByClassName("selected-step");

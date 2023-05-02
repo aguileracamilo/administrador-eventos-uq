@@ -12,7 +12,12 @@ function SignIn({ next }) {
       <label>Contraseña</label>
       <input id="password-input" type="text" />
       <div>
-        <a onClick={(e) => next(e, "form-sign-in", "form-account-recovery")}>
+        <a
+          onClick={(e) => {
+            next("form-sign-in", "form-account-recovery");
+            e.preventDefault();
+          }}
+        >
           <label>¿Olvidaste tu contraseña?</label>
         </a>
       </div>

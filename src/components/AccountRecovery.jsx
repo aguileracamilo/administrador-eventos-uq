@@ -1,5 +1,5 @@
 import React from "react";
-import { sendCode } from "../js/services/user.js";
+import { generateCode } from "../js/services/user.js";
 
 function AccountRecovery({ next }) {
   return (
@@ -19,20 +19,36 @@ function AccountRecovery({ next }) {
       <button
         className="only-button"
         onClick={(e) => {
-          const emailInput = document.getElementById("email-recovery-input");
-          const email = emailInput.value;
-          emailInput.setCustomValidity("asdas");
-          emailInput.reportValidity();
-          if (email != "" && email.includes("@")) {
-            sendCode(email);
-            next(e, "form-account-recovery", "form-send-code");
-          }
+          sendEmail(e, next);
         }}
       >
         Ingresar
       </button>
     </form>
   );
+}
+
+async function sendEmail(e, next) {
+  e.preventDefault();
+  let response;
+  const emailInput = document.getElementById("email-recovery-input");
+  const email = emailInput.value;
+
+  if (!email.includes("@")) {
+    emailInput.setCustomValidity("Debe contener por lo menos un @");
+    emailInput.reportValidity();
+  } else if (email != "") {
+    response = await generateCode(email);
+  }
+
+  if (response === "code-sent") {
+    next("form-account-recovery", "form-send-code");
+  } else if (response === "user-no-found") {
+    emailInput.setCustomValidity("El correo no está registrado");
+    emailInput.reportValidity();
+  } else if (response === "error-to-generate-code") {
+    alert("Lo sentimos el código no se envió vuelve a intentar más tarde");
+  }
 }
 
 export default AccountRecovery;
