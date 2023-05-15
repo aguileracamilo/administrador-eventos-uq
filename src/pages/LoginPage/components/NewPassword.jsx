@@ -1,5 +1,5 @@
 import React from "react";
-import { changePassword } from "../js/services/user.js";
+import { changePassword } from "../../../js/services/user.js";
 
 function NewPassword() {
   return (
@@ -7,14 +7,16 @@ function NewPassword() {
       <h3>
         <strong>Cambiar contraseña</strong>
       </h3>
-      <label>Nueva Contraseña</label>
-      <input id="new-password-input" />
-      <label>Confirme nueva contraseña</label>
-      <input id="new-password-confirmed-input" />
+      <label htmlFor="new-password-input">Nueva Contraseña</label>
+      <input id="new-password-input" type="password" />
+      <label htmlFor="new-password-confirmed-input">
+        Confirme nueva contraseña
+      </label>
+      <input id="new-password-confirmed-input" type="password" />
       <button
         className="only-button"
         onClick={(e) => {
-          e.preventDefault();
+        //e.preventDefault();
           confirmChanges(changePassword);
         }}
       >
@@ -25,7 +27,6 @@ function NewPassword() {
 }
 
 function confirmChanges(changePassword) {
-  console.log("ahhh izquierdosos");
   const emailInput = document.getElementById("email-recovery-input");
   const email = emailInput.value;
   const passwordInput = document.getElementById("new-password-input");

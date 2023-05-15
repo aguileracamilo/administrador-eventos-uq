@@ -1,5 +1,5 @@
 import React from "react";
-import { generateCode, validateCode } from "../js/services/user.js";
+import { generateCode, validateCode } from "../../../js/services/user.js";
 
 function SendCode({ next }) {
   return (
@@ -7,7 +7,7 @@ function SendCode({ next }) {
       <h3>
         <strong>Código de seguridad</strong>
       </h3>
-      <label>Ingresa código de seguridad</label>
+      <label htmlFor="code-input">Ingresa código de seguridad</label>
       <input id="code-input" />
       <button
         className="only-button"

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./css/Login.css";
+import "./Login.css";
 import SignIn from "./components/SignIn";
 import AccountRecovery from "./components/AccountRecovery";
 import NewPassword from "./components/NewPassword";
 import FormStepper from "./components/FormStepper";
-import back from "./assets/back.png";
-import logo from "./assets/uniquindio-logo.png";
+import back from "../../assets/back.png";
+import logo from "../../assets/uniquindio-logo.png";
 import SendCode from "./components/SendCode";
 
 function Login() {
@@ -38,7 +38,7 @@ function Login() {
   );
 }
 
-function next( current, nextId) {
+function next(current, nextId) {
   let currentPage = document.getElementById(current);
   let nextPage = document.getElementById(nextId);
   let step = document.getElementsByClassName("selected-step");

@@ -1,6 +1,6 @@
 body {
   width: 100%;
-  margin:0px;
+  margin: 0px;
 }
 :root {
   font-family: Arial;
@@ -21,4 +21,8 @@ body {
 
 #login-area {
   background-color: aqua;
+}
+button,
+a label, a {
+  cursor: pointer;
 }

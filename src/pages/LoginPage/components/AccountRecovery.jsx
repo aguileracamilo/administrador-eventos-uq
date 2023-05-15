@@ -1,5 +1,5 @@
 import React from "react";
-import { generateCode } from "../js/services/user.js";
+import { generateCode } from "../../../js/services/user.js";
 
 function AccountRecovery({ next }) {
   return (
