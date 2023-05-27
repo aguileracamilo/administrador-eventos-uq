@@ -24,7 +24,7 @@ function Login() {
           <AccountRecovery next={next} />
           <SendCode next={next} />
           <NewPassword next={next} />
-          <section id="guide-section" style={{ display: "none" }}>
+          <section className="section-login" id="guide-section" style={{ display: "none" }}>
             <a onClick={backToSignIn} id="back" className="text-center">
               <img id="back-icon" src={back} />
               <label>Volver a la página anterior</label>

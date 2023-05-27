@@ -23,6 +23,7 @@ body {
   background-color: aqua;
 }
 button,
-a label, a {
+a label,
+a {
   cursor: pointer;
 }

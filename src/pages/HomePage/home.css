@@ -1,0 +1,58 @@
+.content {
+  min-width: 73%;
+  padding: 10px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.border {
+  border-width: 17px 10px;
+  border-style: solid;
+  border-color: #308113;
+  padding: 10px;
+  height: 100%;
+  box-sizing: border-box;
+}
+.bar {
+  min-width: 27%;
+  background: #308113;
+  height: 100vh;
+}
+.avatar-img {
+  width: 115px;
+  height: 115px;
+  border-radius: 100%;
+  margin: 16px 0px 7px 0px;
+}
+
+.element-page {
+  font-size: 22px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  margin: 0px;
+}
+.info-user {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.options-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.option-contain {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
