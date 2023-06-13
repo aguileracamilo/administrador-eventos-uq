@@ -12,6 +12,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
 }
 #root {
   display: flex;
@@ -22,7 +23,7 @@ body {
 #login-area {
   background-color: aqua;
 }
-button,
+button,button label,
 a label,
 a {
   cursor: pointer;

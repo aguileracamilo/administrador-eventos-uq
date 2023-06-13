@@ -1,32 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .content {
-  min-width: 73%;
-  padding: 10px;
+  width: 73%;
+  padding: 17px;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
 .border {
-  border-width: 17px 10px;
-  border-style: solid;
-  border-color: #308113;
-  padding: 10px;
-  height: 100%;
+  border: 14px solid #308113;
+  padding: 20px 60px;
   box-sizing: border-box;
 }
+
 .bar {
   min-width: 27%;
-  background: #308113;
+  background-color: #308113;
   height: 100vh;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-100%);
+  position: fixed;
+  top: 0;
+  left: 0;
 }
+
 .avatar-img {
   width: 115px;
   height: 115px;
   border-radius: 100%;
-  margin: 16px 0px 7px 0px;
+  margin: 16px 0 7px 0;
 }
 
 .element-page {
-  font-size: 22px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -36,8 +45,9 @@
 .icon {
   width: 40px;
   height: 40px;
-  margin: 0px;
+  margin: 0;
 }
+
 .info-user {
   margin: 20px 0;
   display: flex;
@@ -45,14 +55,202 @@
   align-items: center;
   gap: 5px;
 }
+
+.user-name {
+  display: contents;
+  font-weight: bold;
+  font-size: 24px;
+  height: 30px;
+}
+
 .options-section {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
+
 .option-contain {
   margin: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+h2 {
+  color: black;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  gap: 3%;
+}
+
+#search-button {
+  margin: 0;
+  width: 17%;
+  font-size: 17px;
+}
+#search-button label {
+  color: white;
+  font-size: 17px;
+}
+#search-button img {
+  display: none;
+}
+
+.grid-container {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
+}
+
+.grid-item {
+  overflow: hidden;
+  background-color: #f6f5f7;
+  text-align: center;
+  border-radius: 10px;
+  height: 230px;
+}
+
+.grid-item label {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.grid-item img {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px 10px 0 0;
+  margin: 0;
+}
+
+#create-event-button {
+  position: fixed;
+  bottom: 50px;
+  right: 90px;
+  width: 13%;
+}
+#create-event-button label {
+  color: white;
+  font-size: 17px;
+}
+#create-event-button img {
+  display: none;
+}
+.slide-in {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 27%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.5);*/
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-100%);
+  overflow: hidden;
+}
+
+.open {
+  transform: translateX(0);
+}
+.slide-in.open .bar {
+  width: 100%;
+  transform: translateX(0);
+}
+.appbar {
+  display: none;
+}
+#screen {
+  width: 26%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  display: none;
+}
+select{
+  width: 40%;
+  border-radius: 7px;
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .slide-in {
+    width: 100%;
+  }
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .content {
+    width: 100%;
+    padding: 0px 25px;
+  }
+
+  .border {
+    border: 0px;
+    padding: 0px;
+  }
+  .bar {
+    max-width: 74%;
+  }
+
+  .appbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    background: green;
+  }
+  .appbar div {
+    height: auto;
+    font-size: 22px;
+    height: 30px;
+    font-weight: bold;
+    color: white;
+  }
+  .appbar button {
+    height: auto;
+    width: auto;
+    font-size: 32px;
+    margin: 0px;
+  }
+  #search-button img {
+    margin: 0px;
+    display: block;
+  }
+  #search-button {
+    border-radius: 20px;
+    width: 44px;
+  }
+  #search-button label {
+    display: none;
+  }
+  #create-event-button {
+    border-radius: 38px;
+    width: 60px;
+    margin: 0;
+    height: 60px;
+    right: 24px;
+    bottom: 20px;
+  }
+  #create-event-button img {
+    display: block;
+    height: 20px;
+    width: 20px;
+    margin: 0px;
+    margin-left: 12.5px;
+  }
+  #create-event-button label {
+    display: none;
+  }
+  #screen {
+    display: block;
+  }
 }

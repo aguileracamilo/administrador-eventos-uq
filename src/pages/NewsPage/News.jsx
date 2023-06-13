@@ -1,16 +1,19 @@
-import MenuBar from "../../components/MenuBar";
-import "./home.css";
+import "../HomePage/home.css";
 import logo from "../../assets/prueba.png";
 import plus from "../../assets/plus.png";
 import search from "../../assets/search.png";
-import React, { useState, useEffect } from "react";
 
-function Home() {
-
+export default function News() {
   return (
     <>
-      <h2>Eventos Activos</h2>
+      <h2>Publicaciones</h2>
       <div className="search">
+        <select>
+          <option value="option1">Option 1nmdmkndfjknfr sdjkdfhjdfjidfgksdfjk sdjildfdfrhusdajnhdfjoinjadsdnjfhgujn</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+          <option value="option4">Option 4</option>
+        </select>
         <input />{" "}
         <button id="search-button">
           <label>Buscar</label>
@@ -82,12 +85,10 @@ function Home() {
           </label>
         </div>
         <button id="create-event-button">
-          <label>Crear un evento</label>
+          <label>Crear publicación</label>
           <img src={plus} />
         </button>
       </section>
     </>
   );
 }
-
-export default Home;
