@@ -4,8 +4,17 @@ import logo from "../../assets/prueba.png";
 import plus from "../../assets/plus.png";
 import search from "../../assets/search.png";
 import React, { useState, useEffect } from "react";
-
-function Home() {
+import { Link } from "react-router-dom";
+import { getAllEvents } from "../../js/services/user.js";
+ function  Home() {
+  const [allEvents, setAllEvents] = useState([]);
+  
+  useEffect(() => {
+  
+    return async() => {
+     setAllEvents( await getAllEvents());
+    }
+  },[])
 
   return (
     <>
@@ -17,74 +26,23 @@ function Home() {
           <img src={search}></img>
         </button>
       </div>
+
       <section className="grid-container">
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <div className="grid-item">
-          <img src={logo} alt="Logo" />
-          <label>
-            Comunicado | Comité Electoral de la Universidad del Quindío | 10 de
-            marzo
-          </label>
-        </div>
-        <button id="create-event-button">
-          <label>Crear un evento</label>
-          <img src={plus} />
-        </button>
+        {allEvents.map((item, index) => (
+          <Link to="/user/create-event" state={item} className="grid-item" key={index}>
+            <img src={item.photo} alt="Logo" />
+            <label>
+             {item.title}
+            </label>
+          </Link>
+        ))}
+
+        <Link to="/user/create-event">
+          <button id="create-event-button">
+            <label>Crear un evento</label>
+            <img src={plus} />
+          </button>
+        </Link>
       </section>
     </>
   );

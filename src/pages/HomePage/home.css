@@ -1,3 +1,8 @@
+.main-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
 .container {
   display: flex;
   flex-direction: row;
@@ -15,6 +20,7 @@
   border: 14px solid #308113;
   padding: 20px 60px;
   box-sizing: border-box;
+  height: 100%;
 }
 
 .bar {
@@ -40,6 +46,11 @@
   flex-direction: row;
   align-items: center;
   gap: 20px;
+  
+}
+.link-no-underline {
+  text-decoration: none;
+  color: inherit;
 }
 
 .icon {
@@ -169,7 +180,7 @@ h2 {
   height: 100vh;
   display: none;
 }
-select{
+select {
   width: 40%;
   border-radius: 7px;
 }

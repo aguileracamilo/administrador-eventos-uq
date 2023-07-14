@@ -1,14 +1,17 @@
 import React from "react";
 import { loginUser } from "../../../js/services/user.js";
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function SignIn({ next }) {
   const navigateTo = useNavigate();
   async function handleLoginClick(event) {
     const success = await login(event);
     if (success.success) {
-      navigateTo('/user',{ state: { param1: success.userInfo[0], param2: success.userInfo[1],param3:success.userInfo[2] } });
+      localStorage.setItem("name", success.userInfo[0]);
+      localStorage.setItem("email", success.userInfo[1]);
+      localStorage.setItem("photo", success.userInfo[2]);
+      navigateTo("/user");
     }
   }
   return (
@@ -30,9 +33,8 @@ function SignIn({ next }) {
           <label>¿Olvidaste tu contraseña?</label>
         </a>
       </div>
-      
-        <button onClick={handleLoginClick}>Ingresar</button>
-     
+
+      <button onClick={handleLoginClick}>Ingresar</button>
     </form>
   );
 }

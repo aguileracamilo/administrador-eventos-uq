@@ -1,0 +1,48 @@
+.create-event-page {
+  height: 100%;
+}
+.create-event-page,
+.side-left,
+.side-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.both-sides {
+  display: flex;
+  flex-direction: row;
+}
+.side-left {
+  width: 40%;
+}
+.side-left img {
+  margin: 0px;
+  width: 70%;
+  height: 150px;
+}
+.side-right {
+  width: 60%;
+}
+#combo-box-states {
+  height: 40px;
+}
+.event-buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.modify-button {
+  width: 100px;
+}
+
+@media (max-width: 767px) {
+
+  .both-sides{
+    flex-direction: column;
+  }
+  .side-left,.side-right{
+    width: 100%;
+  }
+}

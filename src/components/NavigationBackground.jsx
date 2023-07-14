@@ -5,8 +5,17 @@ import React, { useState, useEffect } from "react";
 import News from "../pages/NewsPage/News";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Activities from "../pages/ActivitiesPage/Activities";
+import CreateEvent from "../pages/CreateEventPage/CreateEvent";
+import CreateNews from "../pages/CreateNewsPage/CreateNews";
+import CreateActivities from "../pages/CreateActivitiesPage/CreateActivities";
+import { useLocation } from "react-router-dom";
 
 function NavigationBackground() {
+  /*
+  const location = useLocation();
+  const state = location.state;
+  */
+
   const [isOpen, setIsOpen] = useState(true);
 
   const handleClick = () => {
@@ -27,7 +36,7 @@ function NavigationBackground() {
     };
   }, []);
   return (
-    <div>
+    <div className="main-container">
       <div className="appbar">
         <button onClick={handleClick}>☰</button>
         <div>Inicio</div>
@@ -45,9 +54,12 @@ function NavigationBackground() {
         <div className="content">
           <div className="border">
             <Routes>
-              <Route path="/mdskld" element={<Home />} />
-              <Route path="kdsksd" element={<News />} />
-              <Route path="" element={<Activities />} />
+              <Route path="" element={<Home />} />
+              <Route path="news" element={<News />} />
+              <Route path="activities" element={<Activities />} />
+              <Route path="create-event" element={<CreateEvent />} />
+              <Route path="create-news" element={<CreateNews />} />
+              <Route path="create-activities" element={<CreateActivities />} />
             </Routes>
           </div>
         </div>

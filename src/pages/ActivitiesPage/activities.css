@@ -1,5 +1,28 @@
-.grid-item {
-  width: 300px;
-  height: 200px;
-  background-image: linear-gradient(to right, blue, red);
+.grid-itema {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  overflow: hidden;
+  background-color: #f6f5f7;
+  text-align: center;
+  border-radius: 10px;
+  height: 150px;
+  padding: 13px;
+  background-image: linear-gradient(to right, #a3cf9c, #edecaa);
 }
+.grid-itema label{
+    font-size: 15px;
+}
+
+.date-style{
+    color: rgb(10, 10, 180);
+}
+.title-style{
+    margin-left: 0%;
+}
+.hour-style{
+    margin-left: auto;
+    color: gray;
+}
+

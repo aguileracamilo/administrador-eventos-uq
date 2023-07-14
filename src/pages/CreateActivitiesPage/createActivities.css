@@ -1,0 +1,38 @@
+.horizontal-dates {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.activities-buttons {
+  margin-top: 207px;
+}
+.vertical-element {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+#combo-box-events {
+  width: 100%;
+  height: 40px;
+}
+
+.activities-group {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+@media (max-width: 767px) {
+  .horizontal-dates {
+    flex-direction: column;
+  }
+  .event-buttons {
+    margin: 0px;
+    justify-content: center;
+  }
+  .event-buttons button {
+    margin: 0px;
+  }
+}
