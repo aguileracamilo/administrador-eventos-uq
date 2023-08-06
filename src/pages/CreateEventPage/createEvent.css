@@ -37,6 +37,10 @@
   width: 100px;
 }
 
+.delete-button{
+  background:red ;
+}
+
 @media (max-width: 767px) {
 
   .both-sides{

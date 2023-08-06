@@ -1,31 +1,58 @@
-import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { getAllEvents } from "../../js/services/user.js";
-import { createNews } from "../../js/services/user.js";
+import {
+  createNews,
+  deleteNews,
+  updateNews,
+} from "../../js/services/user.js";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import events from "../../js/utils/eventData.js";
+import TextEditor from "./components/TextEditor";
 
 export default function CreateNews() {
+  const [content, setContent] = useState("");
+
+  const getContent = (value) => {
+    setContent(value);
+  };
+  useEffect(() => {
+    console.log(content);
+  }, [content]);
+
+  const [editorValue, setEditorValue] = useState("");
+
+  const handleEditorChange = (value) => {
+    setEditorValue(value);
+    console.log(value);
+  };
+
+  const handleGetJSONContent = () => {
+    console.log(editorValue);
+  };
+
   const { state } = useLocation();
   const preset_key = "r5yvbaa0";
   const cloud_name = "dntd2pmgs";
 
   const [allEvents, setAllEvents] = useState([]);
   useEffect(() => {
-    return async () => {
-      setAllEvents(await getAllEvents());
+    const fetchAllEvents = async () => {
+      const events = await getAllEvents();
+      setAllEvents(events);
     };
+
+    fetchAllEvents();
   }, []);
+
   const [previewImage, setPreviewImage] = useState(null);
   useEffect(() => {
-    return () => {
-      setPreviewImage(
-        state
-          ? state.previewPhoto
-          : "https://w7.pngwing.com/pngs/388/487/png-transparent-computer-icons-graphy-img-landscape-graphy-icon-miscellaneous-angle-text.png"
-      );
-    };
-  }, []);
+    setPreviewImage(
+      state
+        ? state.previewPhoto
+        : "https://w7.pngwing.com/pngs/388/487/png-transparent-computer-icons-graphy-img-landscape-graphy-icon-miscellaneous-angle-text.png"
+    );
+  }, [state]);
 
   function handleFile(event) {
     const file = event.target.files[0];
@@ -46,24 +73,104 @@ export default function CreateNews() {
       })
       .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    if (state) {
+      const selectElement = document.getElementById("combo-box-event");
+      if (selectElement) {
+        const options = selectElement.getElementsByTagName("option");
+
+        for (let i = 0; i < options.length; i++) {
+          console.log(options[i].value);
+          if (state.event == options[i].value) {
+            console.log("entraaq");
+            options[i].selected = true;
+          }
+        }
+      }
+    }
+  }, [allEvents]);
+
+  function confirmDataCreateOrUpdate(
+    createNews,
+    updateNews,
+    previewImage,
+    state
+  ) {
+    const titleInput = document.getElementById("title-news-input");
+    const title = titleInput.value.trim();
+    const descriptionInput = document.getElementById("description-news-input");
+    const description = descriptionInput.value.trim();
+
+    const eventSelect = document.getElementById("combo-box-event");
+    const event = eventSelect.value;
+
+    if (!title) {
+      titleInput.setCustomValidity("El título es obligatorio");
+      titleInput.reportValidity();
+      return;
+    }
+
+    if (!description) {
+      descriptionInput.setCustomValidity("La descripción es obligatoria");
+      descriptionInput.reportValidity();
+      return;
+    }
+
+    if (!event) {
+      eventSelect.setCustomValidity("El evento relacionado es obligatorio");
+      eventSelect.reportValidity();
+      return;
+    }
+
+    if (state) {
+      console.log(content);
+      updateNews({
+        id: state.id,
+        title: title,
+        description: description,
+        content: content,
+        event: event,
+        previewPhoto: previewImage,
+      });
+    } else {
+      createNews({
+        title: title,
+        description: description,
+        content: content,
+        event: event,
+        previewPhoto: previewImage,
+      });
+    }
+  }
+
   return (
     <div className="create-event-page">
       <h2>Modificar/Crear publicación</h2>
       <label>Titulo*</label>
-      <input id="title-news-input" defaultValue={state ? state.title : ""} />
+      <input
+        id="title-news-input"
+        defaultValue={state ? state.title : ""}
+        required
+      />
       <label>Descripción*</label>
-      <input id="description-news-input" defaultValue={state ? state.description : ""} />
-      <label>contenido*</label>
-      <textarea rows="8" cols="50" />
+      <input
+        id="description-news-input"
+        defaultValue={state ? state.description : ""}
+        required
+      />
+      <label>Contenido*</label>
+      <TextEditor initialValue={state? state.content:""} setContent={getContent} onChange={handleEditorChange} />
+
       <div className="both-sides">
         <div className="side-left">
           <label>Imagen</label>
-          <input type="file" onChange={handleFile} />
+          <input type="file" onChange={handleFile} required />
           {previewImage && <img src={previewImage} />}
         </div>
         <div className="side-right">
           <label>Evento relacionado*</label>
-          <select id="combo-box-event">
+          <select id="combo-box-event" required>
             <option value="option1">Ninguno</option>
             {allEvents.map((item, index) => (
               <option value={item.id} key={index}>
@@ -74,11 +181,25 @@ export default function CreateNews() {
         </div>
       </div>
       <div className="event-buttons">
-        <button className="modify-button">Visualizar</button>
+        <Link to="/user/news">
+          <button
+            className="modify-button delete-button"
+            onClick={() => {
+              deleteNews(state.id);
+            }}
+          >
+            Eliminar
+          </button>
+        </Link>
         <button
           className="modify-button"
           onClick={(e) => {
-            confirmDataCreate(createNews, previewImage);
+            confirmDataCreateOrUpdate(
+              createNews,
+              updateNews,
+              previewImage,
+              state
+            );
           }}
         >
           Guardar
@@ -86,33 +207,4 @@ export default function CreateNews() {
       </div>
     </div>
   );
-}
-
-function confirmDataCreate(createNews, previewImage) {
-  const titleInput = document.getElementById("title-news-input");
-  const title = titleInput.value;
-  const descriptionInput = document.getElementById("description-news-input");
-  const description = descriptionInput.value;
-
-  const eventSelect = document.getElementById("combo-box-event");
-  const event = eventSelect.value;
-
-  const token = localStorage.getItem("token");
-  console.log(token);
-
-  console.log({
-    title: title,
-    description: description,
-    content: "",
-    event: event,
-    previewPhoto: previewImage,
-
-  });
-  createNews({
-    title: title,
-    description: description,
-    content: "",
-    event: event,
-    previewPhoto: previewImage,
-  });
 }

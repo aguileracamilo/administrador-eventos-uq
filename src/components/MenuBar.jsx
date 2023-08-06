@@ -49,7 +49,7 @@ function MenuBar() {
               <div>Crear actividades</div>
             </div>
           </Link>
-          <Link to="/user/create-event" className="link-no-underline">
+          <Link to="/user/create-administrator" className="link-no-underline">
             <div className="element-page">
               <img
                 className="icon"

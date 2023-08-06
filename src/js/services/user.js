@@ -109,7 +109,7 @@ export async function getAllEvents() {
 
     const json = await response.json();
     events.event = ["kj"];
-    console.log(events+"klllll")
+    console.log(events + "klllll");
     return json;
   } catch (error) {
     console.error("Error:", error);
@@ -172,6 +172,34 @@ export async function createEvent(event) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
+    },
+    body: JSON.stringify(event),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error en la respuesta del servidor.");
+      }
+    })
+    .then((jsonResponse) => {
+      console.log(jsonResponse);
+
+      return jsonResponse;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+export async function updateEvent(event) {
+  const url = "http://localhost:8080/updateEvent";
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
     },
     body: JSON.stringify(event),
   })
@@ -199,6 +227,7 @@ export async function createNews(news) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
     },
     body: JSON.stringify(news),
   })
@@ -219,5 +248,138 @@ export async function createNews(news) {
     });
 }
 
+export async function updateNews(news) {
+  const url = "http://localhost:8080/updateNews";
 
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
+    },
+    body: JSON.stringify(news),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error en la respuesta del servidor.");
+      }
+    })
+    .then((jsonResponse) => {
+      console.log(jsonResponse);
+
+      return jsonResponse;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+export async function createActivity(activity) {
+  const url = "http://localhost:8080/createActivity";
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
+    },
+    body: JSON.stringify(activity),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error en la respuesta del servidor.");
+      }
+    })
+    .then((jsonResponse) => {
+      console.log(jsonResponse);
+
+      return jsonResponse;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+export async function updateActivity(activity) {
+  const url = "http://localhost:8080/updateActivity";
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
+    },
+    body: JSON.stringify(activity),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error en la respuesta del servidor.");
+      }
+    })
+    .then((jsonResponse) => {
+      console.log(jsonResponse);
+
+      return jsonResponse;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export async function deleteEvent(idEvent) {
+  const respuesta = await fetch("http://localhost:8080/deleteEvent", {
+    headers: {
+      idEvent: idEvent,
+      token: localStorage.getItem("token"),
+    },
+    method: "POST",
+  });
+  const data = await respuesta.json();
+  return data.message;
+}
+export async function deleteActivity(idActivity) {
+  const respuesta = await fetch("http://localhost:8080/deleteActivity", {
+    headers: {
+      idActivity: idActivity,
+      token: localStorage.getItem("token"),
+    },
+    method: "POST",
+  });
+  const data = await respuesta.json();
+  return data.message;
+}
+export async function deleteNews(idNews) {
+  const respuesta = await fetch("http://localhost:8080/deleteNews", {
+    headers: {
+      idNews: idNews,
+      token: localStorage.getItem("token"),
+    },
+    method: "POST",
+  });
+  const data = await respuesta.json();
+  return data.message;
+}
+export async function getNewsContent(url) {
+  try {
+    console.log(url)
+    const response = await fetch("http://localhost:8080"+url, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los eventos");
+    }
+
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
 export default loginUser;

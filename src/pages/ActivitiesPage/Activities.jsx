@@ -5,7 +5,7 @@ import plus from "../../assets/plus.png";
 import search from "../../assets/search.png";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { getAllActivities,getAllEvents } from "../../js/services/user.js";
+import { getAllActivities, getAllEvents } from "../../js/services/user.js";
 
 function Activities() {
   function changeDate(date) {
@@ -23,62 +23,98 @@ function Activities() {
       11: "Nov",
       12: "Dic",
     };
-    let date_whitout_hour = date.split("T")[0];
-
-    let array_date = date_whitout_hour.split("-");
-
-    let inicial_months = months[array_date[1]];
-    return array_date[2] + " " + inicial_months;
+    let dateWithoutHour = date.split("T")[0];
+    let arrayDate = dateWithoutHour.split("-");
+    let initialMonth = months[arrayDate[1]];
+    return arrayDate[2] + " " + initialMonth;
   }
-  function getHour(date,duration) {
+
+  function getHour(date, duration) {
     let hour = date.split("T")[1];
-
-    let array_date = hour.split(":");
-
+    let arrayDate = hour.split(":");
     const fecha = new Date();
-    fecha.setHours(array_date[0]);
-    fecha.setMinutes(array_date[1]);
-    const added_date =new Date(fecha.getTime())
-    added_date.setMinutes(fecha.getMinutes() + duration);
-   
-    return fecha.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    })+"-"+added_date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
+    fecha.setHours(arrayDate[0]);
+    fecha.setMinutes(arrayDate[1]);
+    const addedDate = new Date(fecha.getTime());
+    addedDate.setMinutes(fecha.getMinutes() + duration);
+    return (
+      fecha.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }) +
+      "-" +
+      addedDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+    );
   }
 
   const [allNews, setAllActivities] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState("option1");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredActivities, setFilteredActivities] = useState([]);
+
   useEffect(() => {
-    return async () => {
-      setAllActivities(await getAllActivities());
-      setAllEvents(await getAllEvents())
-    };
+    async function fetchData() {
+      const activities = await getAllActivities();
+      setAllActivities(activities);
+      setFilteredActivities(activities);
+      setAllEvents(await getAllEvents());
+    }
+
+    fetchData();
   }, []);
+
+  const handleSearch = () => {
+    const filtered = allNews.filter((activity) =>
+      activity.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredActivities(filtered);
+  };
+
+  const handleEventChange = (event) => {
+    const selected = event.target.value;
+    setSelectedEvent(selected);
+
+    if (selected === "option1") {
+      setFilteredActivities(allNews);
+    } else {
+      const filtered = allNews.filter(
+        (activity) => {
+          console.log(activity.idEvent +" "+ selected)
+          return activity.idevent == selected}
+      );
+      setFilteredActivities(filtered);
+    }
+  };
+
   return (
     <>
       <h2>Actividades</h2>
       <div className="search">
-        <select>
-          <option value="option1">
-            Ninguno
-          </option>
+        <select value={selectedEvent} onChange={handleEventChange}>
+          <option value="option1">Ninguno</option>
           {allEvents.map((item, index) => (
-          <option value="option2" key={index}>{item.title}</option>))}
+            <option value={item.id} key={index}>
+              {item.title}
+            </option>
+          ))}
         </select>
-        <input />{" "}
-        <button id="search-button">
+        <input
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button id="search-button" onClick={handleSearch}>
           <label>Buscar</label>
-          <img src={search}></img>
+          <img src={search} alt="Search" />
         </button>
       </div>
       <section className="grid-container">
-        {allNews.map((item, index) => (
+        {filteredActivities.map((item, index) => (
           <Link
             to="/user/create-activities"
             state={item}
@@ -87,13 +123,15 @@ function Activities() {
           >
             <label className="date-style">{changeDate(item.date)}</label>
             <label className="title-style">{item.title}</label>
-            <label className="hour-style">{getHour(item.date,item.duration)}</label>
+            <label className="hour-style">
+              {getHour(item.date, item.duration)}
+            </label>
           </Link>
         ))}
         <Link to="/user/create-activities">
           <button id="create-event-button">
             <label>Crear publicación</label>
-            <img src={plus} />
+            <img src={plus} alt="Create Publication" />
           </button>
         </Link>
       </section>

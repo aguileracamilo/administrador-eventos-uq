@@ -1,9 +1,14 @@
 select{
     width: 40%;
 }
+.r-quill{
+    margin-bottom: 45px;
+    color: black;
+}
 @media (max-width: 767px) {
     select{
        width: 100%;
       }
      
 }
+
