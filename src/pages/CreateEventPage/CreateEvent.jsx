@@ -13,6 +13,11 @@ function CreateEvent() {
   const { state } = useLocation();
   const [previewImage, setPreviewImage] = useState(null);
   useEffect(() => {
+    const [datePart, timePart] = state.date.split("T");
+
+    // Actualizar los estados de fecha y hora con los valores seleccionados
+    setSelectedDate(datePart);
+    setSelectedTime(timePart.slice(0, -3));
     setPreviewImage(
       state
         ? state.photo
@@ -100,6 +105,7 @@ function CreateEvent() {
         eventType: type,
         eventState: stateEvent,
         photo: previewImage,
+        date: handleDateTime(),
       });
     } else {
       createEvent({
@@ -109,9 +115,24 @@ function CreateEvent() {
         eventType: type,
         eventState: stateEvent,
         photo: previewImage,
+        date: handleDateTime(),
       });
     }
   }
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+
+  const handleDateChange = (event) => {
+    setSelectedDate(event.target.value);
+  };
+
+  const handleTimeChange = (event) => {
+    setSelectedTime(event.target.value);
+  };
+
+  const handleDateTime = () => {
+    return `${selectedDate}T${selectedTime}:00`;
+  };
 
   return (
     <div className="create-event-page">
@@ -144,31 +165,55 @@ function CreateEvent() {
             defaultValue={state ? state.place : ""}
             required
           />
-          <label>Tipo de evento*</label>
-          <select
-            id="combo-box-type"
-            defaultValue={state ? state.eventType : ""}
-            required
-          >
-            <option value="COLOQUIO">COLOQUIO</option>
-            <option value="CONFERENCIA">CONFERENCIA</option>
-            <option value="CONGRESO">CONGRESO</option>
-            <option value="FORO">FORO</option>
-            <option value="PANEL">PANEL</option>
-            <option value="SEMINARIO">SEMINARIO</option>
-            <option value="SIMPOSIO">SIMPOSIO</option>
-            <option value="TALLER">TALLER</option>
-          </select>
-          <label>Estado del evento*</label>
-          <select
-            id="combo-box-states"
-            defaultValue={state ? state.eventState : ""}
-            required
-          >
-            <option value="PROXIMAMENTE">PROXIMAMENTE</option>
-            <option value="ACTIVO">ACTIVO</option>
-            <option value="FINALIZADO">FINALIZADO</option>
-          </select>
+          <div className="horizontal">
+            <div className="vertical">
+              <label>Tipo de evento*</label>
+              <select
+                id="combo-box-type"
+                defaultValue={state ? state.eventType : ""}
+                required
+              >
+                <option value="COLOQUIO">COLOQUIO</option>
+                <option value="CONFERENCIA">CONFERENCIA</option>
+                <option value="CONGRESO">CONGRESO</option>
+                <option value="FORO">FORO</option>
+                <option value="PANEL">PANEL</option>
+                <option value="SEMINARIO">SEMINARIO</option>
+                <option value="SIMPOSIO">SIMPOSIO</option>
+                <option value="TALLER">TALLER</option>
+              </select>
+            </div>
+            <div className="vertical">
+              <label>Estado del evento*</label>
+              <select
+                id="combo-box-states"
+                defaultValue={state ? state.eventState : ""}
+                required
+              >
+                <option value="PROXIMAMENTE">PROXIMAMENTE</option>
+                <option value="ACTIVO">ACTIVO</option>
+                <option value="FINALIZADO">FINALIZADO</option>
+              </select>
+            </div>
+          </div>
+          <div className="horizontal">
+            <div className="vertical">
+              <label>Fecha</label>
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={handleDateChange}
+              />
+            </div>
+            <div className="vertical">
+              <label>Hora</label>
+              <input
+                type="time"
+                value={selectedTime}
+                onChange={handleTimeChange}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className="event-buttons">

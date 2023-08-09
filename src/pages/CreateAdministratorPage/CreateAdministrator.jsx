@@ -2,20 +2,33 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import {
-  createEvent,
-  deleteEvent,
-  updateEvent,
+  createAdmin,
+  deleteAdmin,
+  updateAdmin,
+  getAllEmails,
+  getAdminByEmail,
+  getAllEventsBasic,
+  getRelatedEvents,
 } from "../../js/services/user.js";
+import "./createAdministrator.css";
 import search from "../../assets/search.png";
 import { Link } from "react-router-dom";
 
 function CreateAdministrator() {
-
-  
-
-  const { state } = useLocation();
+  const [state, setState] = useState();
+  const [levelDisabled, setLevelDisabled] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
+  const [eventsList, setEventsList] = useState([]);
+  const [relatedEvents, setRelatedEvents] = useState([]);
+
   useEffect(() => {
+    getAllEmails().then((emailList) => {
+      setEmails(emailList);
+      setLevelDisabled(
+        emailList.length == 1 ? true : false
+      );
+    });
+
     return () => {
       setPreviewImage(
         state
@@ -30,7 +43,7 @@ function CreateAdministrator() {
   const preset_key = "r5yvbaa0";
   const cloud_name = "dntd2pmgs";
   const [image, setImage] = useState();
-
+  const [emails, setEmails] = useState([]);
   function handleFile(event) {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -50,23 +63,77 @@ function CreateAdministrator() {
       })
       .catch((err) => console.log(err));
   }
+
+  useEffect(() => {
+    getAllEventsBasic()
+      .then((res) => res)
+      .then((response) => {
+        setEventsList(response);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  function searchAdmin() {
+    getRelatedEvents(document.getElementById("combo-box-emails").value).then(
+      (events) => {
+        setSelectedRows(events);
+        console.log(events);
+      }
+    );
+    
+    
+    console.log("aaaaaaaaaaaaaaaa")
+    console.log(document.getElementById("combo-box-emails").value)
+
+    getAdminByEmail(document.getElementById("combo-box-emails").value).then(
+      (admin) => {
+        setState(admin);
+
+    
+        
+        setPreviewImage(admin[2]);
+        var comboBox = document.getElementById("combo-box-level");
+        comboBox.value = admin[3];
+      }
+    );
+  }
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const toggleRowSelection = (eventId) => {
+    console.log(eventId);
+    if (selectedRows.includes(eventId)) {
+      setSelectedRows(selectedRows.filter((id) => id !== eventId));
+    } else {
+      setSelectedRows([...selectedRows, eventId]);
+    }
+
+    console.log(selectedRows);
+  };
+
+  const isRowSelected = (eventId) => {
+    return selectedRows.includes(eventId);
+  };
+
   return (
     <div className="create-event-page">
       <h2>Modificar/Agregar Administrador</h2>
       <div className="search">
-        <input />
-        <button id="search-button">
+        <select id="combo-box-emails" defaultValue={""}>
+          {emails.map((email, index) => (
+            <option key={index} value={email}>
+              {email}
+            </option>
+          ))}
+        </select>
+        <button id="search-button" onClick={searchAdmin}>
           <label>Buscar</label>
           <img src={search} alt="Search" />
         </button>
       </div>
       <label>Nombre Completo*</label>
-      <input id="title-input" defaultValue={state ? state.title : ""} />
+      <input id="name-input" defaultValue={state ? state[0] : ""} />
       <label>Correo*</label>
-      <input
-        id="description-input"
-        defaultValue={state ? state.description : ""}
-      />
+      <input id="email-input" defaultValue={state ? state[1] : ""} />
       <div className="both-sides">
         <div className="side-left">
           <label>Imagen</label>
@@ -74,17 +141,44 @@ function CreateAdministrator() {
           {previewImage && <img src={previewImage} />}
           <label>Nivel*</label>
           <select
-            id="combo-box-states"
-            defaultValue={state ? state.eventState : ""}
+            id="combo-box-level"
+            defaultValue={state ? state[3] : ""}
+            disabled={levelDisabled}
           >
-            <option value="PROXIMAMENTE">PROXIMAMENTE</option>
-            <option value="ACTIVO">ACTIVO</option>
-            <option value="FINALIZADO">FINALIZADO</option>
+            <option value="level-1">level-1</option>
+            <option value="level-2">level-2</option>
           </select>
         </div>
         <div className="side-right">
           <label>Eventos*</label>
-          <input id="place-input" defaultValue={state ? state.place : ""} />
+          <div className="scroll-principal">
+            <table className="event-table">
+              <thead>
+                <tr>
+                  <th>
+                    <div className="first-colum">ID</div>
+                  </th>
+                  <th>Nombre</th>
+                </tr>
+              </thead>
+              <tbody>
+                {eventsList.map((event) => (
+                  <tr
+                    key={event.id}
+                    onClick={() => toggleRowSelection(event.id)}
+                    className={
+                      selectedRows.includes(event.id) ? "isSelected" : ""
+                    }
+                  >
+                    <td>
+                      <div className="first-colum">{event.id}</div>
+                    </td>
+                    <td>{event.title}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div className="event-buttons">
@@ -92,8 +186,7 @@ function CreateAdministrator() {
           <button
             onClick={(e) => {
               //e.preventDefault();
-              console.log(state.id);
-              deleteEvent(state.id);
+              deleteAdmin(state[1]);
             }}
             className="modify-button delete-button"
           >
@@ -105,10 +198,11 @@ function CreateAdministrator() {
           onClick={(e) => {
             //e.preventDefault();
             confirmDataCreateOrUpdate(
-              createEvent,
-              updateEvent,
+              createAdmin,
+              updateAdmin,
               previewImage,
-              state
+              state,
+              selectedRows
             );
           }}
         >
@@ -120,50 +214,43 @@ function CreateAdministrator() {
 }
 
 function confirmDataCreateOrUpdate(
-  createEvent,
-  updateEvent,
+  createAdmin,
+  updateAdmin,
   previewImage,
-  state
+  state,
+  selectedRows
 ) {
-  const titleInput = document.getElementById("title-input");
-  const title = titleInput.value;
-  const descriptionInput = document.getElementById("description-input");
-  const description = descriptionInput.value;
-  const placeConfirmedInput = document.getElementById("place-input");
-  const place = placeConfirmedInput.value;
-  const typeSelect = document.getElementById("combo-box-type");
-  const type = typeSelect.value;
+  const nameInput = document.getElementById("name-input");
+  const name = nameInput.value;
+  const emailInput = document.getElementById("email-input");
+  const email = emailInput.value;
+  const levelSelect = document.getElementById("combo-box-level");
+  const level = levelSelect.value;
 
-  const stateSelect = document.getElementById("combo-box-states");
-  const stateEvent = stateSelect.value;
   const token = localStorage.getItem("token");
   console.log(token);
 
   console.log({
-    title: title,
-    description: description,
-    place: place,
-    eventType: type,
-    eventState: stateEvent,
+    name: name,
+    email: email,
   });
   if (state) {
-    updateEvent({
-      id: state.id,
-      title: title,
-      description: description,
-      place: place,
-      eventType: type,
-      eventState: stateEvent,
+    updateAdmin({
+      id: state[4],
+      name: name,
+      email: email,
       photo: previewImage,
+      level: level,
+      relatedEvents: selectedRows,
     });
   } else {
-    createEvent({
-      title: title,
-      description: description,
-      place: place,
-      eventType: type,
-      eventState: stateEvent,
+    console.log("crearrrrrrrrrrrr" + level);
+    createAdmin({
+      name: name,
+      email: email,
       photo: previewImage,
+      level: level,
+      relatedEvents: selectedRows,
     });
   }
 }

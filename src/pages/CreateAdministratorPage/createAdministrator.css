@@ -1,0 +1,52 @@
+/* EventTable.css */
+.event-table-container {
+  min-height: 500px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.event-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.event-table th {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.event-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.event-table tbody tr:nth-child(odd) {
+  background-color: white;
+}
+
+.scroll-principal {
+  border: 1px solid;
+  height: 400px;
+  width: 100%px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  user-select: none;
+  border-color: black;
+  color: black;
+}
+
+td,
+th {
+  text-align: left;
+  height: 40px;
+}
+
+.first-colum{
+    margin-left: 20px;
+    width: 70px;
+}
+
+.event-table tbody tr.isSelected{
+
+  background-color:blue;
+}

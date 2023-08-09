@@ -40,6 +40,22 @@
 .delete-button{
   background:red ;
 }
+.horizontal{display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+#combo-box-states,#combo-box-type{
+  width: 100%;
+}
+
+.vertical{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+select{
+  height: 40px;
+}
 
 @media (max-width: 767px) {
 

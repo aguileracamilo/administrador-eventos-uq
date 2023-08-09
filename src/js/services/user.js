@@ -382,4 +382,182 @@ export async function getNewsContent(url) {
     throw error;
   }
 }
+
+export async function getAdminByEmail(email) {
+  const url = "http://localhost:8080/AdministratorByEmail";
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        token: localStorage.getItem("token"),
+        email: email
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los eventos");
+    }
+
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+export async function getAllEventsBasic() {
+  const url = "http://localhost:8080/AllEventsBasic";
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los eventos");
+    }
+
+    const json = await response.json();
+    console.log(json+"AAAAAAAAAAAAA");
+    return json;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+export async function getAllEmails() {
+  const url = "http://localhost:8080/AllEmailsAdministrator";
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los eventos");
+    }
+
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+export async function getRelatedEvents(email) {
+  const url = "http://localhost:8080/RelatedEvents";
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        token: localStorage.getItem("token"),
+        email:email
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los eventos");
+    }
+
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+export async function createAdmin(event) {
+  const url = "http://localhost:8080/createAdmin";
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
+    },
+    body: JSON.stringify(event),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error en la respuesta del servidor.");
+      }
+    })
+    .then((jsonResponse) => {
+      console.log(jsonResponse);
+
+      return jsonResponse;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+export async function updateAdmin(event) {
+  const url = "http://localhost:8080/updateAdmin";
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
+    },
+    body: JSON.stringify(event),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error en la respuesta del servidor.");
+      }
+    })
+    .then((jsonResponse) => {
+      console.log(jsonResponse);
+
+      return jsonResponse;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+export async function deleteAdmin(email) {
+  const url = "http://localhost:8080/deleteAdmin";
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      token: localStorage.getItem("token"),
+      email: email
+    },
+    body: JSON.stringify(event),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error en la respuesta del servidor.");
+      }
+    })
+    .then((jsonResponse) => {
+      console.log(jsonResponse);
+
+      return jsonResponse;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 export default loginUser;
