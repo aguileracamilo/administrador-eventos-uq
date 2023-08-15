@@ -50,7 +50,7 @@ export default function CreateNews() {
     setPreviewImage(
       state
         ? state.previewPhoto
-        : "https://w7.pngwing.com/pngs/388/487/png-transparent-computer-icons-graphy-img-landscape-graphy-icon-miscellaneous-angle-text.png"
+        : "https://res.cloudinary.com/dntd2pmgs/image/upload/v1692054291/elk91xyyn4ebvrrcaqlm.jpg"
     );
   }, [state]);
 
@@ -105,7 +105,7 @@ export default function CreateNews() {
     const eventSelect = document.getElementById("combo-box-event");
     const event = eventSelect.value;
 
-    if (!title) {
+    if (!title|| title.length<3) {
       titleInput.setCustomValidity("El título es obligatorio");
       titleInput.reportValidity();
       return;
@@ -117,7 +117,7 @@ export default function CreateNews() {
       return;
     }
 
-    if (!event) {
+    if (!event||event=="option1") {
       eventSelect.setCustomValidity("El evento relacionado es obligatorio");
       eventSelect.reportValidity();
       return;
@@ -151,12 +151,14 @@ export default function CreateNews() {
       <input
         id="title-news-input"
         defaultValue={state ? state.title : ""}
+        maxLength={140}
         required
       />
       <label>Descripción*</label>
       <input
         id="description-news-input"
         defaultValue={state ? state.description : ""}
+        maxLength={150}
         required
       />
       <label>Contenido*</label>
@@ -165,7 +167,7 @@ export default function CreateNews() {
       <div className="both-sides">
         <div className="side-left">
           <label>Imagen</label>
-          <input type="file" onChange={handleFile} required />
+          <input className="input-file" type="file" accept=".png, .jpg" onChange={handleFile} required />
           {previewImage && <img src={previewImage} />}
         </div>
         <div className="side-right">

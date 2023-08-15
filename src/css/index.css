@@ -12,7 +12,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
 }
 #root {
   display: flex;
@@ -23,7 +22,8 @@ body {
 #login-area {
   background-color: aqua;
 }
-button,button label,
+button,
+button label,
 a label,
 a {
   cursor: pointer;
@@ -35,7 +35,16 @@ textarea {
   border-radius: 7px;
   box-sizing: border-box;
 }
-textarea{
+textarea {
   border: 2px solid #cccccc;
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+.input-file {
+  border-radius: 0px;
+  border: 0px transparent;
+  height: 26px;
+}
+
+div div .ql-container {
+  position: static !important;
 }

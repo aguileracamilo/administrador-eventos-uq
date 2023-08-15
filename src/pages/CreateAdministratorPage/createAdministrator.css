@@ -50,3 +50,9 @@ th {
 
   background-color:blue;
 }
+
+@media (max-width: 767px) {
+#combo-box-level{
+  margin-bottom: 10px;
+}
+}

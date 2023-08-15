@@ -1,14 +1,13 @@
-select{
-    width: 40%;
+select {
+  width: 40%;
 }
-.r-quill{
-    margin-bottom: 45px;
-    color: black;
+.r-quill {
+  flex-direction: column;
+  display: flex;
+  color: black;
 }
 @media (max-width: 767px) {
-    select{
-       width: 100%;
-      }
-     
+  select {
+    width: 100%;
+  }
 }
-

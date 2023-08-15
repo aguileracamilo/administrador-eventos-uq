@@ -5,12 +5,11 @@ import activityIcon from "../assets/activity.png";
 import newsIcon from "../assets/news.png";
 import userIcon from "../assets/user.png";
 import logoutIcon from "../assets/logout.png";
+import arrow from "../assets/arrow.png";
 
 import { Link } from "react-router-dom";
 
 function MenuBar() {
-
-
   return (
     <div className="bar">
       <section className="info-user">
@@ -57,6 +56,12 @@ function MenuBar() {
                 alt="Agregar administradores"
               />
               <div>Agregar administradores</div>
+            </div>
+          </Link>
+          <Link to="/user/statistic" className="link-no-underline">
+            <div className="element-page">
+              <img className="icon" src={arrow} alt="Cerrar sesión" />
+              <div>Estadisticas</div>
             </div>
           </Link>
           <Link to="/" className="link-no-underline">

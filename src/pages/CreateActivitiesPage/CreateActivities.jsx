@@ -82,7 +82,7 @@ function CreateActivities() {
 
     const duration = calculatorTime(startHour, endHour);
 
-    if (!title) {
+    if (!title || title.length<3) {
       titleInput.setCustomValidity("El título es obligatorio");
       titleInput.reportValidity();
       return;
@@ -123,6 +123,11 @@ function CreateActivities() {
     if (!authors) {
       authorsInput.setCustomValidity("Los autores son obligatorios");
       authorsInput.reportValidity();
+      return;
+    }
+    if (!event||event=="option1") {
+      eventSelect.setCustomValidity("El evento relacionado es obligatorio");
+      eventSelect.reportValidity();
       return;
     }
 
@@ -167,6 +172,7 @@ function CreateActivities() {
       <input
         id="title-activity-input"
         defaultValue={state ? state.title : ""}
+        maxLength={300}
         required
       />
       <label>Ubicación*</label>

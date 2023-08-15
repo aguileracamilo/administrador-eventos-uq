@@ -33,7 +33,7 @@ function CreateAdministrator() {
       setPreviewImage(
         state
           ? state.photo
-          : "https://w7.pngwing.com/pngs/388/487/png-transparent-computer-icons-graphy-img-landscape-graphy-icon-miscellaneous-angle-text.png"
+          : "https://res.cloudinary.com/dntd2pmgs/image/upload/v1692054291/elk91xyyn4ebvrrcaqlm.jpg"
       );
     };
   }, []);
@@ -137,7 +137,7 @@ function CreateAdministrator() {
       <div className="both-sides">
         <div className="side-left">
           <label>Imagen</label>
-          <input type="file" onChange={handleFile}></input>
+          <input className="input-file" type="file" accept=".png, .jpg" onChange={handleFile}></input>
           {previewImage && <img src={previewImage} />}
           <label>Nivel*</label>
           <select

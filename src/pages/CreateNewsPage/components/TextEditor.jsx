@@ -87,7 +87,6 @@ const TextEditor = ({ setContent, initialValue }) => {
         formats={formats}
         onChange={handleChange}
       />
-      <p>{JSON.stringify(value)}</p>
     </>
   );
 };

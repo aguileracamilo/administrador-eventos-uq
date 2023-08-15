@@ -13,7 +13,8 @@ function CreateEvent() {
   const { state } = useLocation();
   const [previewImage, setPreviewImage] = useState(null);
   useEffect(() => {
-    const [datePart, timePart] = state.date.split("T");
+    const [datePart, timePart] =
+      state && state.date ? state.date.split("T") : ["", ""];
 
     // Actualizar los estados de fecha y hora con los valores seleccionados
     setSelectedDate(datePart);
@@ -21,7 +22,7 @@ function CreateEvent() {
     setPreviewImage(
       state
         ? state.photo
-        : "https://w7.pngwing.com/pngs/388/487/png-transparent-computer-icons-graphy-img-landscape-graphy-icon-miscellaneous-angle-text.png"
+        : "https://res.cloudinary.com/dntd2pmgs/image/upload/v1692054291/elk91xyyn4ebvrrcaqlm.jpg"
     );
   }, [state]);
 
@@ -67,6 +68,10 @@ function CreateEvent() {
     const stateEvent = stateSelect.value;
 
     if (!title) {
+      titleInput.setCustomValidity("El título es obligatorio");
+      titleInput.reportValidity();
+      return;
+    }else if(title.length<3){
       titleInput.setCustomValidity("El título es obligatorio");
       titleInput.reportValidity();
       return;
@@ -141,7 +146,7 @@ function CreateEvent() {
       <label>Titulo*</label>
       <input
         id="title-input"
-        defaultValue={state ? state.title : ""}
+        defaultValue={state ? state.title : ""} maxLength={140}
         required
       />
       <label>Descripción*</label>
@@ -150,12 +155,19 @@ function CreateEvent() {
         cols="50"
         id="description-input"
         defaultValue={state ? state.description : ""}
+        maxLength={500}
         required
       />
       <div className="both-sides">
         <div className="side-left">
           <label>Imagen</label>
-          <input type="file" onChange={handleFile} required></input>
+          <input
+          className="input-file"
+            type="file"
+            accept=".png, .jpg"
+            onChange={handleFile}
+            required
+          ></input>
           {previewImage && <img src={previewImage} />}
         </div>
         <div className="side-right">
@@ -163,6 +175,7 @@ function CreateEvent() {
           <input
             id="place-input"
             defaultValue={state ? state.place : ""}
+            maxLength={200}
             required
           />
           <div className="horizontal">
