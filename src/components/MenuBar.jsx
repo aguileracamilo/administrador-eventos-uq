@@ -10,6 +10,12 @@ import arrow from "../assets/arrow.png";
 import { Link } from "react-router-dom";
 
 function MenuBar() {
+
+  function cancelToken(){
+    localStorage.setItem("token", "")
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa33333333")
+    console.log(localStorage.getItem("token"))
+  }
   return (
     <div className="bar">
       <section className="info-user">
@@ -64,7 +70,7 @@ function MenuBar() {
               <div>Estadisticas</div>
             </div>
           </Link>
-          <Link to="/" className="link-no-underline">
+          <Link to="/" className="link-no-underline" onClick={cancelToken}>
             <div className="element-page">
               <img className="icon" src={logoutIcon} alt="Cerrar sesión" />
               <div>Cerrar sesión</div>

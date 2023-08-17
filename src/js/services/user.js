@@ -560,4 +560,29 @@ export async function deleteAdmin(email) {
       console.error(error);
     });
 }
+
+export async function getStatistics(idEvent) {
+  const url = "http://localhost:8080/Statistics";
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        token: localStorage.getItem("token"),
+        idEvent: idEvent,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al obtener los eventos");
+    }
+
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
 export default loginUser;

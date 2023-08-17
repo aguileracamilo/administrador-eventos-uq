@@ -1,49 +1,57 @@
-import "../HomePage/home.css";
-import logo from "../../assets/prueba.png";
-import plus from "../../assets/plus.png";
-import search from "../../assets/search.png";
-import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { getAllNews, getAllEvents } from "../../js/services/user.js";
+import { getAllNews, getAllEvents, getStatistics } from "../../js/services/user.js";
+import "./statistics.css";
 
 export default function Statistics() {
   const [allNews, setAllNews] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("option1");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredNews, setFilteredNews] = useState([]);
+  const [numberOfAttendees, setNumberOfAttendees] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      const news = await getAllNews();
-      setAllNews(news);
-      setFilteredNews(news);
-      setAllEvents(await getAllEvents());
+      let respEvents = await getAllEvents();
+      await Promise.all(
+        respEvents.map(async (event) => {
+          const statistics = await getStatistics(event.id);
+          event.numberOfAttendees = statistics.numberOfAttendees;
+          event.numberOfNews = statistics.numberOfNews;
+          event.numberOfActivities = statistics.numberOfActivities;
+          event.numberOfPendingActivities =
+            statistics.numberOfPendingActivities;
+          return event;
+        })
+      );
+      setAllEvents(respEvents);
+      setFilteredEvents(respEvents); // Initialize filtered events with all events
     }
-
     fetchData();
   }, []);
 
-  const handleSearch = () => {
-    const filtered = allNews.filter((news) =>
-      news.title.toLowerCase().includes(searchQuery.toLowerCase())
+  useEffect(() => {
+    // Filter events based on selected event
+    if (selectedEvent === "option1") {
+      setFilteredEvents(allEvents);
+    } else {
+      const selectedEventObj = allEvents.find(event => event.id === parseInt(selectedEvent));
+      if (selectedEventObj) {
+        setFilteredEvents([selectedEventObj]);
+      }
+    }
+  }, [selectedEvent, allEvents]);
+
+  useEffect(() => {
+    // Filter events based on search query
+    const filtered = allEvents.filter((event) =>
+      event.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredNews(filtered);
-  };
+    setFilteredEvents(filtered);
+  }, [searchQuery, allEvents]);
 
   const handleEventChange = (event) => {
-    const selected = event.target.value;
-    console.log(selected);
-    setSelectedEvent(selected);
-
-    if (selected === "option1") {
-      setFilteredNews(allNews);
-    } else {
-      const filtered = allNews.filter((news) => {
-        return news.event == selected;
-      });
-      setFilteredNews(filtered);
-    }
+    setSelectedEvent(event.target.value);
   };
 
   return (
@@ -61,13 +69,41 @@ export default function Statistics() {
         <input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Buscar por nombre"
         />
-        <button id="search-button" onClick={handleSearch}>
-          <label>Buscar</label>
-          <img src={search} alt="Search" />
-        </button>
       </div>
-      <section className="grid-container"></section>
+      <section className>
+        <h4>Numero de posibles asistentes</h4>
+        <label>{numberOfAttendees}</label>
+      </section>
+      <div className="scroll-principal">
+        <table className="event-table">
+          <thead>
+            <tr>
+              <th>
+                <div className="first-colum">Titulo del Evento</div>
+              </th>
+              <th className="statistics">Numero de Asistentes</th>
+              <th className="statistics">Numero de Noticias</th>
+              <th className="statistics">Numero de Actividades</th>
+              <th className="statistics">Numero de Actividades Pendientes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredEvents.map((event) => (
+              <tr key={event.id}>
+                <td>
+                  <div className="first-colum">{event.title}</div>
+                </td>
+                <td>{event.numberOfAttendees}</td>
+                <td>{event.numberOfNews}</td>
+                <td>{event.numberOfActivities}</td>
+                <td>{event.numberOfPendingActivities}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

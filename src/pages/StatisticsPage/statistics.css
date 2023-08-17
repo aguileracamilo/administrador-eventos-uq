@@ -1,0 +1,17 @@
+.first-colum {
+  min-width: 100%;
+}
+.statistics {
+  width: 11%;
+  margin-left: 1%;
+}
+
+@media (max-width: 767px) {
+    th,tr{
+        font-size: 10px;
+    }
+    .first-colum {
+        margin-left: 0px;
+    }
+    
+}

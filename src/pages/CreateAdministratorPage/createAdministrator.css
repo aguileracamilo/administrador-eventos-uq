@@ -41,18 +41,18 @@ th {
   height: 40px;
 }
 
-.first-colum{
-    margin-left: 20px;
-    width: 70px;
+.first-colum {
+  margin-left: 20px;
+  width: 70px;
 }
 
-.event-table tbody tr.isSelected{
-
-  background-color:blue;
+.event-table tbody tr.isSelected {
+  background-color: #308113;
+  color: white;
 }
 
 @media (max-width: 767px) {
-#combo-box-level{
-  margin-bottom: 10px;
-}
+  #combo-box-level {
+    margin-bottom: 10px;
+  }
 }
